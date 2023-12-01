@@ -11,7 +11,7 @@ public class ListingService {
     @Autowired
     private ListingRepository listingRepository;
     public List<ListingModel> allListings() {
-        System.out.println(listingRepository.findAll().toString());
+//        System.out.println(listingRepository.findAll().toString());
         return listingRepository.findAll();
     }
 
