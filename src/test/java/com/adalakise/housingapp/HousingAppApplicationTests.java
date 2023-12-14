@@ -1,10 +1,10 @@
-package com.example.housingappbackendspringboot;
+package com.adalakise.housingapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HousingAppBackendSpringbootApplicationTests {
+class HousingAppApplicationTests {
 
 	@Test
 	void contextLoads() {
