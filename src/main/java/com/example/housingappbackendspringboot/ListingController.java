@@ -3,27 +3,36 @@ package com.example.housingappbackendspringboot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/feed/items")
-public class ListingController {
 
+public class ListingController {
     @Autowired
     private ListingService service;
+    @RequestMapping("/feed/item")
     @GetMapping
-    public ResponseEntity<List<ListingModel>> getAllListings(){
-        return new ResponseEntity<List<ListingModel>>(service.allListings(), HttpStatus.OK);
+    public ResponseEntity<Optional<ListingModel>> getSingleMovie(@RequestParam Integer id) {
+        return new ResponseEntity<>(service.singleListing(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<ListingModel>> getSingleMovie(@PathVariable Integer id){
-        return new ResponseEntity<Optional<ListingModel>>(service.singleListing(id), HttpStatus.OK);
+    @RequestMapping("/feed/items")
+//    @GetMapping
+//    public ResponseEntity<List<ListingModel>> getAllListings() {
+//        return new ResponseEntity<>(service.allListings(), HttpStatus.OK);
+//    }
+
+    @GetMapping
+    public ResponseEntity<List<ListingModel>> getFilteredListings(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false, defaultValue = "0") int price,
+            @RequestParam(required = false, defaultValue = "0") int size,
+            @RequestParam(required = false, defaultValue = "0") int bedrooms) {
+
+        List<ListingModel> filteredListings = service.filterListings(title, price, size, bedrooms);
+        return new ResponseEntity<>(filteredListings, HttpStatus.OK);
     }
 }
